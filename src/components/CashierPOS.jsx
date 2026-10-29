@@ -366,7 +366,7 @@ export default function CashierPOS() {
                         <option value="Pending">Menunggu</option>
                         <option value="Sedang Proses">Sedang Proses</option>
                         <option value="Selesai">Selesai</option>
-                        <option value="Diantar"></option>
+                        <option value="Diantar">Diantar</option>
                       </select>
                     </td>
                     <td className="p-3.5 align-top space-y-1">
