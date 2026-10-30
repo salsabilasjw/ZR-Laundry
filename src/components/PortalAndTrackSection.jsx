@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 export default function PortalAndTrackSection() {
@@ -15,27 +16,20 @@ export default function PortalAndTrackSection() {
   const [quickLayanan, setQuickLayanan] = useState('Cuci Kiloan Reguler');
   const [quickPesananBerhasil, setQuickPesananBerhasil] = useState(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setBuktiTransfer(file.name);
-    }
-  };
-
   const handleOrderSubmit = (e) => {
     e.preventDefault();
+
     if (paymentMethod === 'Transfer Bank' && !buktiTransfer) {
-      alert('Mohon unggah bukti transfer bank terlebih dahulu!');
+      alert('Mohon unggah bukti transfer terlebih dahulu!');
       return;
     }
 
-    const generatedResi = 'ZRL-' + Math.floor(1000 + Math.random() * 9000);
-    setPesananBerhasil({ 
-      nama, 
-      layanan, 
-      resi: generatedResi, 
-      paymentMethod, 
-      bukti: buktiTransfer 
+    setPesananBerhasil({
+      nama,
+      layanan,
+      resi: 'ZRL-' + Math.floor(1000 + Math.random() * 9000),
+      paymentMethod,
+      bukti: buktiTransfer
     });
   };
 
@@ -45,8 +39,12 @@ export default function PortalAndTrackSection() {
       alert('Masukkan nama Anda terlebih dahulu!');
       return;
     }
-    const generatedResi = 'ZRL-' + Math.floor(1000 + Math.random() * 9000);
-    setQuickPesananBerhasil({ nama: quickNama, layanan: quickLayanan, resi: generatedResi });
+
+    setQuickPesananBerhasil({
+      nama: quickNama,
+      layanan: quickLayanan,
+      resi: 'ZRL-' + Math.floor(1000 + Math.random() * 9000)
+    });
   };
 
   const handleTrack = () => {
@@ -57,210 +55,242 @@ export default function PortalAndTrackSection() {
     setStatusResi('Pakaian sedang dalam proses pencucian di outlet Medan.');
   };
 
+  const inputStyle =
+    "w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition";
+
+  const labelStyle = "block text-sm font-bold text-slate-700 mb-2";
+
   return (
-    <div id="track" className="scroll-mt-24 grid md:grid-cols-3 gap-8 items-start">
-      
-      {/* Kolom Kiri: Formulir Pesanan & Pembayaran Lengkap */}
-      <div id="portal" className="md:col-span-2 bg-white p-8 rounded-3xl shadow-sm border space-y-4">
-        <div className="space-y-1">
-          <h3 className="text-2xl font-bold text-slate-900">Portal Pelanggan — Buat Pesanan</h3>
-          <p className="text-slate-600 text-sm">Isi formulir di bawah ini untuk memesan layanan laundry.</p>
-        </div>
+    <section id="track" className="scroll-mt-24 px-4 sm:px-8 py-12 bg-slate-50">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-6 items-stretch">
 
-        {pesananBerhasil ? (
-          <div className="bg-green-50 border border-green-200 p-5 rounded-2xl text-center space-y-2">
-            <h4 className="font-bold text-green-800 text-lg">Pesanan Berhasil Dibuat! 🎉</h4>
-            <p className="text-sm text-green-700">Terima kasih <strong>{pesananBerhasil.nama}</strong>.</p>
-            <p className="text-sm">Nomor Resi Anda: <strong className="text-blue-600 text-base">{pesananBerhasil.resi}</strong></p>
-            <p className="text-xs text-slate-600">Metode Pembayaran: <strong>{pesananBerhasil.paymentMethod}</strong></p>
-            {pesananBerhasil.bukti && (
-              <p className="text-xs text-green-700">Bukti Transfer: <strong>{pesananBerhasil.bukti}</strong> (Berhasil Diunggah)</p>
-            )}
-            <button 
-              onClick={() => { setPesananBerhasil(null); setBuktiTransfer(null); }} 
-              className="mt-2 bg-blue-600 text-white text-xs px-4 py-2 rounded-xl font-bold"
-            >
-              Buat Pesanan Lain
-            </button>
+        {/* FORM PEMESANAN KIRI */}
+        <div id="portal" className="lg:col-span-2 bg-white rounded-3xl border border-sky-100 shadow-md overflow-hidden">
+
+          <div className="bg-gradient-to-r from-sky-500 to-blue-600 px-7 py-6 text-white">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl">
+                🧺
+              </div>
+              <div>
+                <h3 className="text-xl font-black">Buat Pesanan</h3>
+                <p className="text-sky-100 text-xs mt-1">
+                  Isi data untuk memulai pesanan laundry.
+                </p>
+              </div>
+            </div>
           </div>
-        ) : (
-          <form onSubmit={handleOrderSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Nama Lengkap</label>
-              <input 
-                type="text" 
-                value={nama} 
-                onChange={(e) => setNama(e.target.value)} 
-                placeholder="Contoh: Budi" 
-                className="w-full p-2.5 border rounded-xl mt-1 text-sm focus:outline-none focus:border-blue-500" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Nomor WhatsApp</label>
-              <input 
-                type="text" 
-                value={whatsapp} 
-                onChange={(e) => setWhatsapp(e.target.value)} 
-                placeholder="0812xxxxxxxx" 
-                className="w-full p-2.5 border rounded-xl mt-1 text-sm focus:outline-none focus:border-blue-500" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Pilih Layanan</label>
-              <select 
-                value={layanan} 
-                onChange={(e) => setLayanan(e.target.value)} 
-                className="w-full p-2.5 border rounded-xl mt-1 text-sm focus:outline-none focus:border-blue-500 bg-white"
-              >
-                <option>Cuci Kiloan Reguler (Rp 7.000/Kg)</option>
-                <option>Cuci Kilat / Express (Rp 12.000/Kg)</option>
-                <option>Cuci Sepatu (Rp 30.000/Pasang)</option>
-              </select>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Metode Pembayaran</label>
-              <select 
-                value={paymentMethod} 
-                onChange={(e) => setPaymentMethod(e.target.value)} 
-                className="w-full p-2.5 border rounded-xl mt-1 text-sm font-semibold text-blue-700 focus:outline-none focus:border-blue-500 bg-white"
-              >
-                <option value="Cash (Tunai)">💵 Cash (Tunai - Bayar saat kurir jemput/antar)</option>
-                <option value="Transfer Bank">🏦 Transfer Bank (BCA / Mandiri / BSI)</option>
-              </select>
-            </div>
+          <div className="p-6 sm:p-8">
+            {pesananBerhasil ? (
+              <div className="bg-sky-50 border border-sky-200 p-6 rounded-2xl text-center space-y-3">
+                <div className="text-4xl">🎉</div>
+                <h4 className="font-black text-sky-800 text-xl">Pesanan Berhasil Dibuat!</h4>
+                <p className="text-sm text-slate-600">
+                  Terima kasih, <strong>{pesananBerhasil.nama}</strong>.
+                </p>
+                <div className="bg-white rounded-xl p-4">
+                  <p className="text-xs text-slate-500">Nomor Resi Anda</p>
+                  <p className="text-2xl font-black text-pink-500">{pesananBerhasil.resi}</p>
+                </div>
+                <p className="text-xs text-slate-600">
+                  Metode pembayaran: {pesananBerhasil.paymentMethod}
+                </p>
+                {pesananBerhasil.bukti && (
+                  <p className="text-xs text-slate-600">Bukti: {pesananBerhasil.bukti}</p>
+                )}
+                <button
+                  onClick={() => {
+                    setPesananBerhasil(null);
+                    setNama('');
+                    setWhatsapp('');
+                    setBuktiTransfer(null);
+                  }}
+                  className="bg-sky-600 hover:bg-sky-700 text-white px-5 py-3 rounded-xl text-sm font-bold"
+                >
+                  Buat Pesanan Lain
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleOrderSubmit} className="space-y-5">
 
-            {paymentMethod === 'Transfer Bank' && (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl space-y-3">
-                <div className="space-y-1">
-                  <p className="text-xs font-bold text-blue-900">Silakan Transfer ke Rekening ZR-Laundry:</p>
-                  <p className="text-xs text-slate-700 font-mono">BCA: 1234-5678-90 a.n. ZR-Laundry</p>
-                  <p className="text-xs text-slate-700 font-mono">Mandiri: 9876-5432-10 a.n. ZR-Laundry</p>
+                <div>
+                  <label className={labelStyle}>Nama Lengkap</label>
+                  <input
+                    type="text"
+                    value={nama}
+                    onChange={(e) => setNama(e.target.value)}
+                    placeholder="Masukkan nama lengkap"
+                    className={inputStyle}
+                    required
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Unggah Bukti Transfer</label>
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer"
+                  <label className={labelStyle}>Nomor WhatsApp</label>
+                  <input
+                    type="tel"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(e.target.value)}
+                    placeholder="08xxxxxxxxxx"
+                    className={inputStyle}
                     required
                   />
-                  {buktiTransfer && (
-                    <p className="text-[11px] text-green-700 font-semibold mt-1">✓ File terpilih: {buktiTransfer}</p>
-                  )}
                 </div>
-              </div>
+
+                <div>
+                  <label className={labelStyle}>Pilih Layanan</label>
+                  <select
+                    value={layanan}
+                    onChange={(e) => setLayanan(e.target.value)}
+                    className={inputStyle}
+                  >
+                    <option value="Cuci Kiloan Reguler">Cuci Kiloan Reguler (Rp 7.000/Kg)</option>
+                    <option value="Cuci Kiloan Express">Cuci Kiloan Express (Rp 12.000/Kg)</option>
+                    <option value="Cuci Jaket/Jas">Cuci Jaket/Jas (Rp 15.000/Pcs)</option>
+                    <option value="Cuci Bedcover">Cuci Bedcover (Rp 25.000/Pcs)</option>
+                    <option value="Cuci Sepatu">Cuci Sepatu (Rp 35.000/Pasang)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className={labelStyle}>Metode Pembayaran</label>
+                  <select
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className={inputStyle}
+                  >
+                    <option value="Cash (Tunai)">💵 Cash (Tunai)</option>
+                    <option value="Transfer Bank">🏦 Transfer Bank</option>
+                  </select>
+                </div>
+
+                {paymentMethod === 'Transfer Bank' && (
+                  <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 space-y-3">
+                    <h4 className="font-bold text-sky-800 text-sm">Informasi Rekening</h4>
+                    <p className="text-sm text-slate-600">BCA: 1234-5678-90 a.n. ZR-Laundry</p>
+                    <p className="text-sm text-slate-600">Mandiri: 9876-5432-10 a.n. ZR-Laundry</p>
+                    <label className={labelStyle}>Unggah Bukti Transfer</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setBuktiTransfer(e.target.files[0]?.name || null)}
+                      required
+                      className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-sky-600 file:text-white file:font-bold"
+                    />
+                    {buktiTransfer && (
+                      <p className="text-xs text-green-700">✓ {buktiTransfer}</p>
+                    )}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-xl font-extrabold text-sm shadow-md transition hover:-translate-y-0.5"
+                >
+                  Kirim Pesanan Sekarang →
+                </button>
+              </form>
             )}
+          </div>
+        </div>
 
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl font-bold text-sm shadow transition">
-              Kirim Pesanan Sekarang
-            </button>
-          </form>
-        )}
-      </div>
+        {/* KOLOM KANAN */}
+        <div className="flex flex-col gap-6 h-full min-h-0">
 
-      {/* Kolom Kanan: Cek Resi & Pesan Kilat */}
-      <div className="space-y-6">
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-          
-          <div className="space-y-3">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>🔍</span> Cek Resi / Lacak Cucian
-            </h3>
-            <input 
-              type="text" 
-              value={resiInput} 
-              onChange={(e) => setResiInput(e.target.value)} 
-              placeholder="Cth: ZRL-8821" 
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500" 
+          {/* CEK RESI */}
+          <div className="bg-white p-6 rounded-3xl shadow-md border border-sky-100 space-y-4">
+            <div className="w-12 h-12 bg-pink-50 rounded-2xl flex items-center justify-center text-2xl">
+              🔍
+            </div>
+            <div>
+              <h3 className="text-lg font-black text-slate-800">Lacak Cucian</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Masukkan nomor resi untuk mengecek status cucian.
+              </p>
+            </div>
+
+            <input
+              type="text"
+              value={resiInput}
+              onChange={(e) => setResiInput(e.target.value)}
+              placeholder="Contoh: ZRL-8821"
+              className={inputStyle}
             />
-            <button 
-              onClick={handleTrack} 
-              className="w-full bg-[#111827] hover:bg-black text-white py-3 rounded-xl font-bold text-sm shadow-md transition"
+
+            <button
+              onClick={handleTrack}
+              className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3.5 rounded-xl font-bold text-sm transition"
             >
               Cek Status Sekarang
             </button>
 
             {statusResi && (
-              <div className="p-3 bg-blue-50 border border-blue-100 rounded-xl text-xs text-slate-700 space-y-1 mt-2">
-                <p className="font-bold text-blue-900">Status Terkini:</p>
-                <p>{statusResi}</p>
+              <div className="p-4 bg-sky-50 border border-sky-100 rounded-xl text-xs text-slate-700">
+                <p className="font-bold text-sky-800 mb-1">Status Terkini:</p>
+                {statusResi}
               </div>
             )}
           </div>
 
-          <hr className="border-slate-100" />
-
-          <div className="space-y-3">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>⚡</span> Pesan Kilat Langsung
-            </h3>
+          {/* PESAN KILAT */}
+          <div className="bg-white p-6 rounded-3xl shadow-md border border-pink-100 space-y-4 flex-1 min-h-0">
+            <div className="w-12 h-12 bg-sky-50 rounded-2xl flex items-center justify-center text-2xl">
+              ⚡
+            </div>
+            <div>
+              <h3 className="text-lg font-black text-slate-800">Pesan Kilat</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Buat pesanan dengan lebih praktis.
+              </p>
+            </div>
 
             {quickPesananBerhasil ? (
-              <div className="bg-green-50 border border-green-200 p-3 rounded-xl text-center space-y-1">
-                <p className="text-xs font-bold text-green-800">Berhasil Dipesan! 🎉</p>
-                <p className="text-[11px] text-slate-700">Resi: <strong className="text-blue-600">{quickPesananBerhasil.resi}</strong></p>
-                <button 
-                  onClick={() => setQuickPesananBerhasil(null)} 
-                  className="text-[10px] text-blue-600 underline font-bold mt-1 block mx-auto"
+              <div className="bg-green-50 border border-green-200 p-4 rounded-xl text-center space-y-2">
+                <p className="text-sm font-bold text-green-800">Pesanan Berhasil!</p>
+                <p className="text-xs text-slate-600">
+                  Resi: <strong className="text-sky-600">{quickPesananBerhasil.resi}</strong>
+                </p>
+                <button
+                  onClick={() => setQuickPesananBerhasil(null)}
+                  className="text-xs text-sky-600 underline font-bold"
                 >
                   Pesan Lagi
                 </button>
               </div>
             ) : (
               <form onSubmit={handleQuickOrderSubmit} className="space-y-3">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={quickNama}
                   onChange={(e) => setQuickNama(e.target.value)}
-                  placeholder="Nama Anda" 
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500" 
+                  placeholder="Nama Anda"
+                  className={inputStyle}
                   required
                 />
-                <select 
+                <select
                   value={quickLayanan}
                   onChange={(e) => setQuickLayanan(e.target.value)}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500"
+                  className={inputStyle}
                 >
                   <option>Cuci Kiloan Reguler</option>
-                  <option>Cuci Kilat / Express</option>
+                  <option>Cuci Kiloan Express</option>
+                  <option>Cuci Jaket dan Jas</option>
+                  <option>Cuci Bedcover</option>
                   <option>Cuci Sepatu</option>
                 </select>
-                <button 
+                <button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-bold text-xs shadow transition"
+                  className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3.5 rounded-xl font-bold text-sm transition"
                 >
-                  Pesan Cepat
+                  Pesan Cepat →
                 </button>
               </form>
             )}
           </div>
 
         </div>
-
-        <div className="bg-[#111827] text-white p-6 rounded-3xl shadow-md space-y-4">
-          <div className="space-y-1">
-            <h4 className="font-bold text-sm text-white">Butuh Bantuan Cepat?</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Tanya langsung dengan asisten AI di pojok kanan bawah[cite: 9].
-            </p>
-          </div>
-          <a 
-            href="https://wa.me/6281234567890" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white py-3 px-4 rounded-xl font-bold text-xs shadow transition flex items-center justify-center gap-2"
-          >
-            <span>💬</span> Chat WhatsApp Admin
-          </a>
-        </div>
-
       </div>
-
-    </div>
+    </section>
   );
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import react, { useState } from 'react';
+import zrLogo from '../assets/zr-logo.png';
 
 export default function Navbar({ scrollToSection, currentView, setCurrentView, activeSection }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -10,19 +11,22 @@ export default function Navbar({ scrollToSection, currentView, setCurrentView, a
 
   return (
     <nav className="bg-white border-b border-slate-200 px-4 sm:px-8 py-3.5 sticky top-0 z-50 shadow-sm">
-      <div className="flex justify-between items-center max-w-6xl mx-auto">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full px-1 sm:px-2">
         
         {/* Brand / Logo */}
-        <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => handleNavClick('beranda')}>
-          <div className="bg-blue-600 text-white p-2 rounded-xl font-bold shadow-md text-sm">🫧</div>
-          <div>
-            <h1 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight leading-none">ZR-Laundry</h1>
-            <span className="text-[9px] sm:text-[10px] font-bold text-blue-600 tracking-wider uppercase">EXPRESS LAUNDRY & POS</span>
-          </div>
+        <div
+          className="flex items-center cursor-pointer justify-self-start"
+          onClick={() => handleNavClick('beranda')}
+        >
+          <img
+            src={zrLogo}
+            alt="ZR Laundry Logo"
+            className="h-14 sm:h-16 w-auto object-contain"
+          />
         </div>
 
         {/* Menu Navigasi Tengah (Desktop) */}
-        <div className="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
+        <div className="hidden md:flex items-center justify-self-center space-x-6 text-sm font-semibold text-slate-600">
           <button onClick={() => handleNavClick('beranda')} className="hover:text-blue-600 transition">Beranda</button>
           <button onClick={() => handleNavClick('tentang-kami')} className="hover:text-blue-600 transition">Tentang Kami</button>
           <button onClick={() => handleNavClick('services')} className="hover:text-blue-600 transition">Layanan & Harga</button>
@@ -31,7 +35,7 @@ export default function Navbar({ scrollToSection, currentView, setCurrentView, a
         </div>
 
         {/* Tombol Aksi Kanan (Desktop) */}
-        <div className="hidden md:flex items-center space-x-3">
+        <div className="hidden md:flex items-center justify-self-end space-x-3 ml-auto">
           <button 
             onClick={() => handleNavClick('portal')}
             className={`text-xs font-bold px-4 py-2.5 rounded-xl border transition flex items-center gap-1.5 ${

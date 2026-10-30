@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export default function ServicesSection({ scrollToSection }) {
@@ -6,89 +7,131 @@ export default function ServicesSection({ scrollToSection }) {
       icon: '👕',
       title: 'Cuci Kiloan Reguler',
       desc: 'Pengerjaan 2 hari, bersih dan wangi.',
-      price: 'Rp 7,000',
-      unit: '/ kg'
+      price: 'Rp 7.000',
+      unit: '/ kg',
+      color: 'sky'
     },
     {
       icon: '⚡',
       title: 'Cuci Kiloan Express',
       desc: 'Kilat 1 hari selesai, prioritas utama.',
-      price: 'Rp 12,000',
-      unit: '/ kg'
+      price: 'Rp 12.000',
+      unit: '/ kg',
+      color: 'pink'
     },
     {
       icon: '🧥',
-      title: 'Cuci Satuan Jaket/Jas',
+      title: 'Cuci Jaket & Jas',
       desc: 'Perawatan khusus bahan tebal dan jas.',
-      price: 'Rp 15,000',
-      unit: '/ pcs'
+      price: 'Rp 15.000',
+      unit: '/ pcs',
+      color: 'sky'
     },
     {
       icon: '🛏️',
-      title: 'Cuci Bedcover/Selimut',
-      desc: 'Bersih mendalam bebas tungau.',
-      price: 'Rp 25,000',
-      unit: '/ pcs'
+      title: 'Cuci Bedcover',
+      desc: 'Bersih mendalam untuk selimut dan bedcover.',
+      price: 'Rp 25.000',
+      unit: '/ pcs',
+      color: 'pink'
     },
     {
       icon: '👟',
-      title: 'Cuci Sepatu Sneakers',
-      desc: 'Deep cleaning sol & upper sepatu.',
-      price: 'Rp 35,000',
-      unit: '/ pasang'
+      title: 'Cuci Sepatu',
+      desc: 'Deep cleaning bagian sol dan upper sepatu.',
+      price: 'Rp 35.000',
+      unit: '/ pasang',
+      color: 'sky'
     }
   ];
 
   return (
-    <section id="services" className="py-8">
-      <div className="space-y-8">
-        
-        {/* Header Judul */}
-        <div className="text-center space-y-2 max-w-xl mx-auto">
-          <div className="inline-flex items-center bg-blue-50 text-blue-600 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-extrabold tracking-wider uppercase border border-blue-100">
-            DAFTAR LAYANAN & TARIF
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            Pilih Layanan Sesuai Kebutuhan Anda
+    <section id="services" className="px-4 sm:px-8 lg:px-12 py-12">
+      <div className="max-w-7xl mx-auto space-y-10">
+
+        {/* Header */}
+        <div className="text-center space-y-3 max-w-2xl mx-auto">
+          <span className="inline-flex bg-pink-50 text-pink-600 border border-pink-100 px-4 py-2 rounded-full text-xs font-extrabold tracking-wider">
+            ✨ DAFTAR LAYANAN KAMI
+          </span>
+
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-800">
+            Layanan Laundry
+            <span className="text-sky-600"> Terbaik</span>
+            <br />
+            Untuk Kebutuhanmu
           </h2>
-          <p className="text-slate-500 text-xs sm:text-sm">
-            Transparan, tanpa biaya tersembunyi, dihitung akurat berdasarkan berat atau satuan.
+
+          <p className="text-slate-500 text-sm leading-relaxed">
+            Pilih layanan sesuai kebutuhan. Kami siap membantu
+            pakaian dan barang kesayanganmu tetap bersih dan terawat.
           </p>
         </div>
 
-        {/* Grid Kartu Layanan */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Kartu layanan */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {servicesList.map((item, index) => (
-            <div 
-              key={index} 
-              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-5"
+            <div
+              key={index}
+              className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col"
             >
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+              {/* Bagian ikon */}
+              <div className={`h-36 flex items-center justify-center ${
+                item.color === 'pink'
+                  ? 'bg-gradient-to-br from-pink-100 to-rose-50'
+                  : 'bg-gradient-to-br from-sky-100 to-blue-50'
+              }`}>
+                <div className="text-6xl group-hover:scale-125 transition-transform duration-300">
                   {item.icon}
-                </div>
-
-                <div className="space-y-1">
-                  <h3 className="font-extrabold text-sm text-slate-900">{item.title}</h3>
-                  <p className="text-slate-500 text-[11px] leading-relaxed">{item.desc}</p>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <span className="text-lg font-black text-blue-600">{item.price}</span>
-                  <span className="text-[11px] text-slate-400 font-semibold"> {item.unit}</span>
+              {/* Informasi layanan */}
+              <div className="p-5 flex flex-col flex-1">
+                <div className="flex-1 space-y-2">
+                  <h3 className="font-extrabold text-slate-800 text-sm">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-slate-500 text-xs leading-relaxed min-h-10">
+                    {item.desc}
+                  </p>
                 </div>
 
-                <button 
-                  onClick={() => scrollToSection('portal')}
-                  className="w-full bg-slate-50 hover:bg-blue-600 text-slate-700 hover:text-white font-bold py-2.5 px-4 rounded-xl text-xs transition border border-slate-200 hover:border-blue-600 shadow-sm"
-                >
-                  Pesan Layanan
-                </button>
+                <div className="border-t border-dashed border-slate-200 mt-5 pt-4">
+                  <div className="mb-4">
+                    <span className={`text-lg font-black ${
+                      item.color === 'pink' ? 'text-pink-500' : 'text-sky-600'
+                    }`}>
+                      {item.price}
+                    </span>
+                    <span className="text-xs text-slate-400 font-medium">
+                      {' '}{item.unit}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => scrollToSection('portal')}
+                    className={`w-full py-3 rounded-xl text-xs font-bold text-white transition ${
+                      item.color === 'pink'
+                        ? 'bg-pink-500 hover:bg-pink-600'
+                        : 'bg-sky-600 hover:bg-sky-700'
+                    }`}
+                  >
+                    Pesan Layanan →
+                  </button>
+                </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Catatan bawah */}
+        <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 text-center">
+          <p className="text-xs sm:text-sm text-sky-800">
+            💡 <strong>Info:</strong> Harga dapat disesuaikan dengan jenis
+            layanan dan ketentuan gerai ZR Laundry.
+          </p>
         </div>
 
       </div>
