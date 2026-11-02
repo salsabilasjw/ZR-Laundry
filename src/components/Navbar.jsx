@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import React, { useState } from 'react';
 import zrLogo from '../assets/zr-logo.png';
 
 export default function Navbar({ scrollToSection, currentView, setCurrentView, activeSection }) {
@@ -11,7 +11,8 @@ export default function Navbar({ scrollToSection, currentView, setCurrentView, a
 
   return (
     <nav className="bg-white border-b border-slate-200 px-4 sm:px-8 py-3.5 sticky top-0 z-50 shadow-sm">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full px-1 sm:px-2">
+      {/* Menggunakan Flexbox di Mobile, Grid di Desktop */}
+      <div className="flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between w-full px-1 sm:px-2">
         
         {/* Brand / Logo */}
         <div
