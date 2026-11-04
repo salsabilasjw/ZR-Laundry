@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import CashierPOS from './components/CashierPOS';
@@ -8,6 +8,10 @@ export default function App() {
   const [currentView, setCurrentView] = useState('home');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('beranda');
+
+  // State Member (Temporari untuk frontend tanpa DB)
+  const [isMemberActive, setIsMemberActive] = useState(false);
+  const [memberExpiryDate, setMemberExpiryDate] = useState(null);
 
   const scrollToSection = (id) => {
     setCurrentView('home');
@@ -34,6 +38,10 @@ export default function App() {
           <Home
             scrollToSection={scrollToSection}
             openAIChat={() => setIsChatOpen(true)}
+            isMemberActive={isMemberActive}
+            memberExpiryDate={memberExpiryDate}
+            setIsMemberActive={setIsMemberActive}
+            setMemberExpiryDate={setMemberExpiryDate}
           />
         ) : (
           <CashierPOS />

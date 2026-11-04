@@ -1,47 +1,67 @@
-
 import React from 'react';
 
-export default function ServicesSection({ scrollToSection }) {
+export default function ServicesSection({ scrollToSection, isMemberActive }) {
   const servicesList = [
     {
+      id: 'kiloan-reguler',
       icon: '👕',
       title: 'Cuci Kiloan Reguler',
       desc: 'Pengerjaan 2 hari, bersih dan wangi.',
       price: 'Rp 7.000',
       unit: '/ kg',
-      color: 'sky'
+      color: 'sky',
+      category: 'Reguler'
     },
     {
+      id: 'kiloan-express',
       icon: '⚡',
       title: 'Cuci Kiloan Express',
       desc: 'Kilat 1 hari selesai, prioritas utama.',
       price: 'Rp 12.000',
       unit: '/ kg',
-      color: 'pink'
+      color: 'pink',
+      category: 'Express'
     },
     {
+      id: 'jaket-jas',
       icon: '🧥',
       title: 'Cuci Jaket & Jas',
       desc: 'Perawatan khusus bahan tebal dan jas.',
       price: 'Rp 15.000',
       unit: '/ pcs',
-      color: 'sky'
+      color: 'sky',
+      category: 'Satuan'
     },
     {
+      id: 'bedcover',
       icon: '🛏️',
       title: 'Cuci Bedcover',
       desc: 'Bersih mendalam untuk selimut dan bedcover.',
       price: 'Rp 25.000',
       unit: '/ pcs',
-      color: 'pink'
+      color: 'pink',
+      category: 'Satuan'
     },
     {
+      id: 'sepatu',
       icon: '👟',
       title: 'Cuci Sepatu',
       desc: 'Deep cleaning bagian sol dan upper sepatu.',
       price: 'Rp 35.000',
       unit: '/ pasang',
-      color: 'sky'
+      color: 'sky',
+      category: 'Satuan'
+    },
+    // Penambahan Variasi Layanan Mitra Baru
+    {
+      id: 'karpet-gorden',
+      icon: '🪟',
+      title: 'Cuci Karpet & Gorden',
+      desc: 'Pembersihan mendalam dari debu dan kuman.',
+      price: 'Rp 20.000',
+      unit: '/ m²',
+      color: 'pink',
+      category: 'Mitra Khusus'
     }
   ];
 
@@ -63,35 +83,64 @@ export default function ServicesSection({ scrollToSection }) {
           </h2>
 
           <p className="text-slate-500 text-sm leading-relaxed">
-            Pilih layanan sesuai kebutuhan. Kami siap membantu
-            pakaian dan barang kesayanganmu tetap bersih dan terawat.
+            Pilih layanan sesuai kebutuhan. Nikmati keuntungan lebih hemat dengan paket berlangganan Member ZR Laundry!
           </p>
         </div>
 
-        {/* Kartu layanan */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-          {servicesList.map((item, index) => (
+        {/* KARTU BANNER KHUSUS MEMBER (BERLANGGANAN) */}
+        <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+              👑 PAKET SULTAN MEMBER
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black">
+              Langganan Member ZR Premium
+            </h3>
+            <p className="text-amber-100 text-xs sm:text-sm max-w-xl">
+              Hanya <strong className="text-white">Rp 150.000 / Bulan</strong>. Bebas biaya bayar per transaksi untuk semua laundry kiloan reguler & discount 20% layanan khusus hingga masa kedaluwarsa habis!
+            </p>
+            {isMemberActive && (
+              <p className="text-xs bg-green-900/40 border border-green-300 text-green-200 px-3 py-1.5 rounded-xl font-bold inline-block mt-2">
+                ✅ Status Anda Saat Ini: MEMBER AKTIF
+              </p>
+            )}
+          </div>
+          
+          <button
+            onClick={() => scrollToSection('portal')}
+            className="bg-white text-orange-600 hover:bg-amber-50 font-black px-6 py-3.5 rounded-2xl text-sm shadow-md transition hover:scale-105 shrink-0"
+          >
+            {isMemberActive ? 'Perpanjang Member →' : 'Daftar Member Sekarang →'}
+          </button>
+        </div>
+
+        {/* Grid Kartu Layanan */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {servicesList.map((item) => (
             <div
-              key={index}
+              key={item.id}
               className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col"
             >
-              {/* Bagian ikon */}
-              <div className={`h-36 flex items-center justify-center ${
+              <div className={`h-32 flex items-center justify-center ${
                 item.color === 'pink'
                   ? 'bg-gradient-to-br from-pink-100 to-rose-50'
                   : 'bg-gradient-to-br from-sky-100 to-blue-50'
               }`}>
-                <div className="text-6xl group-hover:scale-125 transition-transform duration-300">
+                <div className="text-5xl group-hover:scale-125 transition-transform duration-300">
                   {item.icon}
                 </div>
               </div>
 
-              {/* Informasi layanan */}
               <div className="p-5 flex flex-col flex-1">
                 <div className="flex-1 space-y-2">
-                  <h3 className="font-extrabold text-slate-800 text-sm">
-                    {item.title}
-                  </h3>
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-extrabold text-slate-800 text-sm">
+                      {item.title}
+                    </h3>
+                    <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
+                      {item.category}
+                    </span>
+                  </div>
 
                   <p className="text-slate-500 text-xs leading-relaxed min-h-10">
                     {item.desc}
@@ -100,14 +149,25 @@ export default function ServicesSection({ scrollToSection }) {
 
                 <div className="border-t border-dashed border-slate-200 mt-5 pt-4">
                   <div className="mb-4">
-                    <span className={`text-lg font-black ${
-                      item.color === 'pink' ? 'text-pink-500' : 'text-sky-600'
-                    }`}>
-                      {item.price}
-                    </span>
-                    <span className="text-xs text-slate-400 font-medium">
-                      {' '}{item.unit}
-                    </span>
+                    {isMemberActive && item.category === 'Reguler' ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs line-through text-slate-400">{item.price}</span>
+                        <span className="text-sm font-extrabold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg border border-green-200">
+                          GRATIS (Member)
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <span className={`text-lg font-black ${
+                          item.color === 'pink' ? 'text-pink-500' : 'text-sky-600'
+                        }`}>
+                          {item.price}
+                        </span>
+                        <span className="text-xs text-slate-400 font-medium">
+                          {' '}{item.unit}
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   <button
@@ -126,11 +186,9 @@ export default function ServicesSection({ scrollToSection }) {
           ))}
         </div>
 
-        {/* Catatan bawah */}
         <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 text-center">
           <p className="text-xs sm:text-sm text-sky-800">
-            💡 <strong>Info:</strong> Harga dapat disesuaikan dengan jenis
-            layanan dan ketentuan gerai ZR Laundry.
+            💡 <strong>Info Mitra & Member:</strong> Harga khusus anggota berlaku otomatis pada sistem Portal Pembayaran saat pesanan diproses.
           </p>
         </div>
 
