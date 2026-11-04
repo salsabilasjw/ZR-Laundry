@@ -36,9 +36,11 @@ export default function ContactSection() {
           </div>
 
           <p className="text-sm text-slate-600 leading-7 text-justify">
-            ZR Laundry merupakan layanan laundry yang hadir untuk
-            memenuhi kebutuhan perawatan pakaian Anda dengan layanan
-            praktis, bersih, dan terpercaya.
+            ZR Laundry merupakan layanan perawatan pakaian yang mengutamakan
+            kualitas, kebersihan, dan kepuasan pelanggan. Dengan pelayanan
+            yang praktis dan terpercaya, kami berkomitmen memberikan
+            pengalaman laundry yang nyaman serta membantu memenuhi kebutuhan
+            perawatan pakaian Anda.
           </p>
         </div>
 
@@ -55,7 +57,14 @@ export default function ContactSection() {
           <div className="space-y-4 text-sm text-slate-700">
             <div className="flex items-start gap-4">
               <span>☏</span>
-              <p>WhatsApp: +62 812-3456-7890</p>
+              <a
+                href="https://wa.me/6281234567890"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-600 transition-colors"
+              >
+                WhatsApp: +62 812-3456-7890
+              </a>
             </div>
 
             <div className="flex items-start gap-4">

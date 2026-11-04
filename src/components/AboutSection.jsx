@@ -25,12 +25,16 @@ export default function AboutSection() {
               </span>
             </h2>
 
-            <p className="text-slate-600 text-sm leading-relaxed">
-              ZR Laundry hadir sebagai solusi perawatan pakaian yang praktis
-              dan terpercaya. Kami membantu pelanggan menghemat waktu dengan
-              layanan pencucian yang mudah, bersih, wangi, dan nyaman.
-              Dengan dukungan sistem pemesanan online, pelanggan juga dapat
-              memantau proses laundry dengan lebih mudah.
+            <p className="text-sm sm:text-base text-slate-600 leading-7 text-justify">
+            ZR Laundry hadir sebagai solusi perawatan pakaian yang praktis,
+            bersih, dan terpercaya. Kami berkomitmen memberikan pelayanan
+            berkualitas dengan mengutamakan kebersihan, kenyamanan, serta
+            kepuasan pelanggan.
+            <br /><br />
+            Melalui sistem pemesanan dan pelacakan online, pelanggan dapat
+            menikmati layanan laundry dengan lebih mudah dan efisien.
+            Kami hadir untuk membantu Anda menghemat waktu agar dapat
+            lebih fokus menjalani aktivitas sehari-hari.
             </p>
 
             {/* Keunggulan */}
