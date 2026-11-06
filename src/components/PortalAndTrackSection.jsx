@@ -259,12 +259,20 @@ export default function PortalAndTrackSection({ isMemberActive, memberExpiryDate
                         onChange={(e) => setLayanan(e.target.value)}
                         className={inputStyle}
                       >
-                        <option value="Cuci Kiloan Reguler">Cuci Kiloan Reguler (Rp 7.000/Kg)</option>
-                        <option value="Cuci Kiloan Express">Cuci Kiloan Express (Rp 12.000/Kg)</option>
-                        <option value="Cuci Jaket/Jas">Cuci Jaket/Jas (Rp 15.000/Pcs)</option>
-                        <option value="Cuci Bedcover">Cuci Bedcover (Rp 25.000/Pcs)</option>
-                        <option value="Cuci Sepatu">Cuci Sepatu (Rp 35.000/Pasang)</option>
-                        <option value="Cuci Karpet & Gorden">Cuci Karpet & Gorden (Rp 20.000/m²)</option>
+                        <option value="Cuci Kiloan Reguler (2 Hari) - Rp 8.000/Kg">Cuci Kiloan Reguler (2 Hari) - Rp 8.000/Kg</option>
+                        <option value="Cuci Express (1 Hari) - Rp 10.000/Kg">Cuci Express (1 Hari) - Rp 10.000/Kg</option>
+                        <option value="Cuci Express (Pagi/Sore) - Rp 15.000/Kg">Cuci Express (Pagi/Sore) - Rp 15.000/Kg</option>
+                        <option value="Cuci Sprei - Rp 9.000/Kg">Cuci Sprei - Rp 9.000/Kg</option>
+                        <option value="Cuci Bed Cover - Rp 10.000/Kg">Cuci Bed Cover - Rp 10.000/Kg</option>
+                        <option value="Cuci Baju Gaun - Rp 30.000/Pcs">Cuci Baju Gaun - Rp 30.000/Pcs</option>
+                        <option value="Cuci Jas / Baju - Rp 15.000/Pcs">Cuci Jas / Baju - Rp 15.000/Pcs</option>
+                        <option value="Cuci Jas Setelan - Rp 30.000/Pcs">Cuci Jas Setelan - Rp 30.000/Pcs</option>
+                        <option value="Cuci Sepatu - Rp 25.000/Pasang">Cuci Sepatu - Rp 25.000/Pasang</option>
+                        <option value="Cuci Tas - Rp 15.000/Kg">Cuci Tas - Rp 15.000/Kg</option>
+                        <option value="Cuci Gorden - Rp 10.000/Kg">Cuci Gorden - Rp 10.000/Kg</option>
+                        <option value="Cuci Boneka Kecil - Rp 20.000/Pcs">Cuci Boneka Kecil - Rp 20.000/Pcs</option>
+                        <option value="Cuci Boneka Sedang - Rp 30.000/Pcs">Cuci Boneka Sedang - Rp 30.000/Pcs</option>
+                        <option value="Cuci Boneka Besar - Rp 40.000/Pcs">Cuci Boneka Besar - Rp 40.000/Pcs</option>
                       </select>
 
                       {/* Notifikasi Pembebasan Biaya Member */}

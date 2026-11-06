@@ -1,67 +1,147 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function ServicesSection({ scrollToSection, isMemberActive }) {
+  const [dollSize, setDollSize] = useState('kecil');
+
+  const dollPrices = {
+    kecil: 'Rp 20.000',
+    sedang: 'Rp 30.000',
+    besar: 'Rp 40.000'
+  };
+
   const servicesList = [
     {
-      id: 'kiloan-reguler',
+      id: 'kiloan-2hari',
       icon: '👕',
-      title: 'Cuci Kiloan Reguler',
-      desc: 'Pengerjaan 2 hari, bersih dan wangi.',
-      price: 'Rp 7.000',
+      title: 'Cuci Kiloan Reguler (2 Hari)',
+      desc: 'Pengerjaan 2 hari, bersih, wangi, dan rapi.',
+      price: 'Rp 8.000',
       unit: '/ kg',
       color: 'sky',
-      category: 'Reguler'
+      category: 'Reguler',
+      isMemberIncluded: true
     },
     {
-      id: 'kiloan-express',
+      id: 'kiloan-express-1hari',
       icon: '⚡',
-      title: 'Cuci Kiloan Express',
-      desc: 'Kilat 1 hari selesai, prioritas utama.',
-      price: 'Rp 12.000',
+      title: 'Cuci Express (1 Hari)',
+      desc: 'Layanan kilat selesai dalam 1 hari.',
+      price: 'Rp 10.000',
       unit: '/ kg',
       color: 'pink',
-      category: 'Express'
+      category: 'Express',
+      isMemberIncluded: true
     },
     {
-      id: 'jaket-jas',
-      icon: '🧥',
-      title: 'Cuci Jaket & Jas',
-      desc: 'Perawatan khusus bahan tebal dan jas.',
+      id: 'kiloan-express-sameday',
+      icon: '🚀',
+      title: 'Cuci Express (Pagi/Sore)',
+      desc: 'Selesai di hari yang sama (Pagi ambil Sore).',
       price: 'Rp 15.000',
-      unit: '/ pcs',
+      unit: '/ kg',
+      color: 'pink',
+      category: 'Express',
+      isMemberIncluded: true
+    },
+    {
+      id: 'sprei',
+      icon: '🛏️',
+      title: 'Cuci Sprei',
+      desc: 'Pembersihan mendalam untuk sprei tempat tidur.',
+      price: 'Rp 9.000',
+      unit: '/ kg',
       color: 'sky',
-      category: 'Satuan'
+      category: 'Satuan / Kiloan',
+      isMemberIncluded: true
     },
     {
       id: 'bedcover',
-      icon: '🛏️',
-      title: 'Cuci Bedcover',
-      desc: 'Bersih mendalam untuk selimut dan bedcover.',
-      price: 'Rp 25.000',
+      icon: '🛌',
+      title: 'Cuci Bed Cover',
+      desc: 'Bersih mendalam untuk selimut tebal & bedcover.',
+      price: 'Rp 10.000',
+      unit: '/ kg',
+      color: 'pink',
+      category: 'Satuan / Kiloan',
+      isMemberIncluded: true
+    },
+    {
+      id: 'baju-gaun',
+      icon: '👗',
+      title: 'Cuci Baju Gaun',
+      desc: 'Perawatan ekstra halus untuk gaun & gaun pesta.',
+      price: 'Rp 30.000',
       unit: '/ pcs',
       color: 'pink',
-      category: 'Satuan'
+      category: 'Satuan',
+      isMemberIncluded: false
+    },
+    {
+      id: 'jas-baju',
+      icon: '🧥',
+      title: 'Cuci Jas / Baju',
+      desc: 'Perawatan khusus bahan tebal dan jas atasan.',
+      price: 'Rp 15.000',
+      unit: '/ pcs',
+      color: 'sky',
+      category: 'Satuan',
+      isMemberIncluded: false
+    },
+    {
+      id: 'jas-setelan',
+      icon: '👔',
+      title: 'Cuci Jas Setelan',
+      desc: 'Pembersihan lengkap untuk atasan dan bawahan jas.',
+      price: 'Rp 30.000',
+      unit: '/ pcs',
+      color: 'sky',
+      category: 'Satuan',
+      isMemberIncluded: false
     },
     {
       id: 'sepatu',
       icon: '👟',
       title: 'Cuci Sepatu',
       desc: 'Deep cleaning bagian sol dan upper sepatu.',
-      price: 'Rp 35.000',
+      price: 'Rp 25.000',
       unit: '/ pasang',
       color: 'sky',
-      category: 'Satuan'
+      category: 'Satuan',
+      isMemberIncluded: false
     },
-    // Penambahan Variasi Layanan Mitra Baru
     {
-      id: 'karpet-gorden',
-      icon: '🪟',
-      title: 'Cuci Karpet & Gorden',
-      desc: 'Pembersihan mendalam dari debu dan kuman.',
-      price: 'Rp 20.000',
-      unit: '/ m²',
+      id: 'tas',
+      icon: '🎒',
+      title: 'Cuci Tas',
+      desc: 'Pembersihan bahan tas ransel/kasual.',
+      price: 'Rp 15.000',
+      unit: '/ kg',
       color: 'pink',
-      category: 'Mitra Khusus'
+      category: 'Satuan / Kiloan',
+      isMemberIncluded: true
+    },
+    {
+      id: 'gorden',
+      icon: '🪟',
+      title: 'Cuci Gorden',
+      desc: 'Pembersihan mendalam dari debu dan kuman.',
+      price: 'Rp 10.000',
+      unit: '/ kg',
+      color: 'sky',
+      category: 'Satuan / Kiloan',
+      isMemberIncluded: true
+    },
+    {
+      id: 'boneka',
+      icon: '🧸',
+      title: 'Cuci Boneka',
+      desc: 'Pembersihan higienis untuk boneka (Kecil, Sedang, Besar).',
+      priceRange: 'Rp 20.000 - Rp 40.000',
+      unit: '/ pcs',
+      color: 'pink',
+      category: 'Satuan',
+      isMemberIncluded: false,
+      isDollCard: true 
     }
   ];
 
@@ -83,11 +163,11 @@ export default function ServicesSection({ scrollToSection, isMemberActive }) {
           </h2>
 
           <p className="text-slate-500 text-sm leading-relaxed">
-            Pilih layanan sesuai kebutuhan. Nikmati keuntungan lebih hemat dengan paket berlangganan Member ZR Laundry!
+            Pilih layanan sesuai kebutuhan. Nikmati keuntungan hemat dengan paket member ZR Laundry!
           </p>
         </div>
 
-        {/* KARTU BANNER KHUSUS MEMBER (BERLANGGANAN) */}
+        {/* BANNER PAKET MEMBER */}
         <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
             <div className="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold tracking-wide">
@@ -97,7 +177,7 @@ export default function ServicesSection({ scrollToSection, isMemberActive }) {
               Langganan Member ZR Premium
             </h3>
             <p className="text-amber-100 text-xs sm:text-sm max-w-xl">
-              Hanya <strong className="text-white">Rp 150.000 / Bulan</strong>. Bebas biaya bayar per transaksi untuk semua laundry kiloan reguler & discount 20% layanan khusus hingga masa kedaluwarsa habis!
+              Hanya <strong className="text-white">Rp 150.000 / Bulan</strong>. Bebas biaya bayar per transaksi untuk cuci pakaian, handuk, dan seprei!
             </p>
             {isMemberActive && (
               <p className="text-xs bg-green-900/40 border border-green-300 text-green-200 px-3 py-1.5 rounded-xl font-bold inline-block mt-2">
@@ -145,16 +225,58 @@ export default function ServicesSection({ scrollToSection, isMemberActive }) {
                   <p className="text-slate-500 text-xs leading-relaxed min-h-10">
                     {item.desc}
                   </p>
+
+                  {item.isDollCard && (
+                    <div className="pt-2">
+                      <label className="text-[11px] font-bold text-slate-600 block mb-1">
+                        Pilih Ukuran Boneka:
+                      </label>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {['kecil', 'sedang', 'besar'].map((size) => (
+                          <button
+                            key={size}
+                            type="button"
+                            onClick={() => setDollSize(size)}
+                            className={`py-1 rounded-lg text-[10px] font-extrabold capitalize border transition ${
+                              dollSize === size
+                                ? 'bg-pink-500 text-white border-pink-500 shadow-xs'
+                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                            }`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
                 </div>
 
                 <div className="border-t border-dashed border-slate-200 mt-5 pt-4">
                   <div className="mb-4">
-                    {isMemberActive && item.category === 'Reguler' ? (
+                    {isMemberActive && item.isMemberIncluded ? (
                       <div className="flex items-center gap-2">
                         <span className="text-xs line-through text-slate-400">{item.price}</span>
                         <span className="text-sm font-extrabold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg border border-green-200">
                           GRATIS (Member)
                         </span>
+                      </div>
+                    ) : item.isDollCard ? (
+                      <div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-lg font-black text-pink-500">
+                            {dollPrices[dollSize]}
+                          </span>
+                          <span className="text-xs text-slate-400 font-medium">
+                            {item.unit}
+                          </span>
+                          <span className="text-[10px] font-semibold text-slate-400 ml-1">
+                            ({dollSize})
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-0.5">
+                          Range harga: {item.priceRange}
+                        </p>
                       </div>
                     ) : (
                       <>
@@ -188,7 +310,7 @@ export default function ServicesSection({ scrollToSection, isMemberActive }) {
 
         <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 text-center">
           <p className="text-xs sm:text-sm text-sky-800">
-            💡 <strong>Info Mitra & Member:</strong> Harga khusus anggota berlaku otomatis pada sistem Portal Pembayaran saat pesanan diproses.
+            📌 <strong>Catatan Member:</strong> Layanan yang termasuk cakupan member hanya jenis cucian dengan hitungan <strong>kiloan (/kg)</strong>.
           </p>
         </div>
 
