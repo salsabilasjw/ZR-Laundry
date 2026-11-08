@@ -433,11 +433,19 @@ export default function PortalAndTrackSection({ isMemberActive, memberExpiryDate
                   className={inputStyle}
                 >
                   <option>Cuci Kiloan Reguler</option>
-                  <option>Cuci Kiloan Express</option>
-                  <option>Cuci Jaket dan Jas</option>
+                  <option>Cuci Express (1 Hari)</option>
+                  <option>Cuci Express (Pagi/Sore)</option>
+                  <option>Cuci Sprei</option>
                   <option>Cuci Bedcover</option>
+                  <option>Cuci Baju Gaun</option>
+                  <option>Cuci Jas / Baju</option>
+                  <option>Cuci Jas Setelan</option>
                   <option>Cuci Sepatu</option>
-                  <option>Cuci Karpet & Gorden</option>
+                  <option>Cuci Tas</option>
+                  <option>Cuci Gorden</option>
+                  <option>Cuci Boneka Kecil</option>
+                  <option>Cuci Boneka Sedang</option>
+                  <option>Cuci Boneka Besar</option>
                 </select>
                 <button
                   type="submit"

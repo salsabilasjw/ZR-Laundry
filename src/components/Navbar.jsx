@@ -12,22 +12,22 @@ export default function Navbar({ scrollToSection, currentView, setCurrentView, a
   return (
     <nav className="bg-white border-b border-slate-200 px-4 sm:px-8 py-3.5 sticky top-0 z-50 shadow-sm">
       {/* Menggunakan Flexbox di Mobile, Grid di Desktop */}
-      <div className="flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between w-full px-1 sm:px-2">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4 w-full">
         
         {/* Brand / Logo */}
         <div
-          className="flex items-center cursor-pointer justify-self-start"
+          className="flex items-center cursor-pointer flex-shrink-0"
           onClick={() => handleNavClick('beranda')}
         >
           <img
             src={zrLogo}
             alt="ZR Laundry Logo"
-            className="h-14 sm:h-16 w-auto object-contain"
+            className="h-10 sm:h-12 lg:h-14 w-auto object-contain"
           />
         </div>
 
         {/* Menu Navigasi Tengah (Desktop) */}
-        <div className="hidden md:flex items-center justify-self-center space-x-6 text-sm font-semibold text-slate-600">
+        <div className="hidden md:flex items-center gap-3 lg:gap-6 text-xs lg:text-sm font-semibold text-slate-600">
           <button onClick={() => handleNavClick('beranda')} className="hover:text-blue-600 transition">Beranda</button>
           <button onClick={() => handleNavClick('tentang-kami')} className="hover:text-blue-600 transition">Tentang Kami</button>
           <button onClick={() => handleNavClick('services')} className="hover:text-blue-600 transition">Layanan & Harga</button>
@@ -36,7 +36,7 @@ export default function Navbar({ scrollToSection, currentView, setCurrentView, a
         </div>
 
         {/* Tombol Aksi Kanan (Desktop) */}
-        <div className="hidden md:flex items-center justify-self-end space-x-3 ml-auto">
+        <div className="hidden md:flex items-center gap-2 lg:gap-3 flex-shrink-0">
           <button 
             onClick={() => handleNavClick('portal')}
             className={`text-xs font-bold px-4 py-2.5 rounded-xl border transition flex items-center gap-1.5 ${

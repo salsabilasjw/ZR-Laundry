@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import ReceiptModal from './ReceiptModal';
 
 export default function CashierPOS() {
   const [pin, setPin] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('antrian'); 
-  
+  const [receiptData, setReceiptData] = useState(null);
+
   // State untuk Anchor Date & Pilihan Periode
   const [selectedDate, setSelectedDate] = useState('2026-10-29');
   const [periodePendapatan, setPeriodePendapatan] = useState('harian'); 
@@ -12,7 +14,7 @@ export default function CashierPOS() {
 
   const [walkinName, setWalkinName] = useState('');
   const [walkinPhone, setWalkinPhone] = useState('');
-  const [walkinService, setWalkinService] = useState('Cuci Kiloan Reguler (Rp 7.000/Kg)');
+  const [walkinService, setWalkinService] = useState('Cuci Kiloan Reguler (2 Hari) - Rp 8.000/Kg');
   const [walkinQty, setWalkinQty] = useState('');
   const [walkinPaymentMethod, setWalkinPaymentMethod] = useState('Cash (Tunai)');
 
@@ -25,9 +27,9 @@ export default function CashierPOS() {
       name: 'Budi Santoso',
       phone: '081234567890',
       service: 'Cuci Kiloan Reguler',
-      qty: 'Qty: 4.5',
-      totalNominal: 31500,
-      total: 'Rp 31,500',
+      qty: 'Qty: 4',
+      totalNominal: 32000,
+      total: 'Rp 32,000',
       status: 'Selesai',
       paymentStatus: 'Lunas',
       paymentMethod: 'Transfer Bank'
@@ -38,10 +40,10 @@ export default function CashierPOS() {
       rawDate: '2026-10-29',
       name: 'Siti Rahma',
       phone: '085678901234',
-      service: 'Cuci Bedcover / Selimut',
+      service: 'Cuci Sprei',
       qty: 'Qty: 2',
-      totalNominal: 50000,
-      total: 'Rp 50,000',
+      totalNominal: 18000,
+      total: 'Rp 18,000',
       status: 'Menjemput',
       paymentStatus: 'Belum Lunas',
       paymentMethod: 'Cash (Tunai)'
@@ -75,32 +77,48 @@ export default function CashierPOS() {
       alert('Mohon lengkapi nama dan jumlah berat/qty pesanan!');
       return;
     }
-
-    const nominal = parseInt(walkinQty) * 7000;
+  
+    const priceMatch = walkinService.match(/Rp\s?([\d.]+)/);
+    const unitPrice = priceMatch ? parseInt(priceMatch[1].replace(/\./g, '')) : 8000;
+    const nominal = parseFloat(walkinQty) * unitPrice;
+      
     const newResi = 'ZRL-' + Math.floor(1000 + Math.random() * 9000);
     const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
+    const formattedDate = `${selectedDate} ${timeNow}`;
+    const cleanServiceName = walkinService.split(' - ')[0];
+
     const newOrder = {
       id: newResi,
-      date: `${selectedDate} ${timeNow} (Offline)`,
+      date: `${formattedDate} (Offline)`,
       rawDate: selectedDate,
       name: walkinName,
       phone: walkinPhone || '-',
-      service: walkinService.split(' (')[0],
+      service: cleanServiceName,
       qty: `Qty: ${walkinQty}`,
       totalNominal: nominal,
-      total: 'Rp ' + nominal.toLocaleString(),
-      status: 'Sedang Dicuci',
+      total: 'Rp ' + nominal.toLocaleString('id-ID'),
+      status: 'Sedang Proses',
       paymentStatus: 'Lunas',
       paymentMethod: walkinPaymentMethod
     };
 
     setOrders([newOrder, ...orders]);
-    alert(`Transaksi Walk-in Berhasil! Resi: ${newResi} (${walkinPaymentMethod})`);
+
+    setReceiptData({
+      orderId: newResi,
+      tanggal: formattedDate,
+      nama: walkinName,
+      noHp: walkinPhone || '-',
+      layanan: cleanServiceName,
+      berat: walkinQty,
+      metode: walkinPaymentMethod,
+      total: nominal
+    });
+
     setWalkinName('');
     setWalkinPhone('');
     setWalkinQty('');
-    setActiveTab('antrian');
+    
   };
 
   // Logika Filter Kalender
@@ -151,6 +169,15 @@ export default function CashierPOS() {
   } else if (periodePelanggan === 'bulanan') {
     filteredPelanggan = orders.filter(o => isSameMonth(o.rawDate, selectedDate));
   }
+
+  // Hitung total Cash & Transfer untuk periode aktif
+  const totalCash = orders
+  .filter(o => o.rawDate === selectedDate && o.paymentStatus === 'Lunas' && o.paymentMethod.includes('Cash'))
+  .reduce((sum, o) => sum + o.totalNominal, 0);
+
+  const totalTransfer = orders
+  .filter(o => o.rawDate === selectedDate && o.paymentStatus === 'Lunas' && o.paymentMethod.includes('Transfer'))
+  .reduce((sum, o) => sum + o.totalNominal, 0);
 
   const pesananAktifCount = orders.filter(o => o.status !== 'Selesai').length;
   const pesananSelesaiCount = orders.filter(o => o.status === 'Selesai').length;
@@ -215,9 +242,18 @@ export default function CashierPOS() {
             />
           </div>
 
-          <div className="pt-1">
-            <h3 className="text-2xl font-extrabold text-slate-900">Rp {nominalPendapatanAktif.toLocaleString()}</h3>
-            <p className="text-[10px] text-slate-400 mt-0.5">Pemasukan Lunas berdasarkan kalender</p>
+          <div>
+            <h3 className="text-2xl font-extrabold text-slate-900">Rp {nominalPendapatanAktif.toLocaleString('id-ID')}</h3>
+            <div className="mt-2 pt-2 border-t border-slate-100 grid grid-cols-2 gap-1.5 text-[10px]">
+              <div className="bg-emerald-50 p-1.5 rounded-xl border border-emerald-100">
+                <span className="text-emerald-700 font-semibold block">💵 Cash</span>
+                <span className="font-extrabold text-emerald-800 text-xs">Rp {totalCash.toLocaleString('id-ID')}</span>
+              </div>
+              <div className="bg-blue-50 p-1.5 rounded-xl border border-blue-100">
+                <span className="text-blue-700 font-semibold block">🏦 Transfer</span>
+                <span className="font-extrabold text-blue-800 text-xs">Rp {totalTransfer.toLocaleString('id-ID')}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -263,22 +299,30 @@ export default function CashierPOS() {
           </div>
         </div>
 
-        {/* Kotak 3: Pesanan Aktif */}
-        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex justify-between items-center">
-          <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-500">Pesanan Aktif (Proses)</p>
-            <h3 className="text-2xl font-extrabold text-blue-600">{pesananAktifCount}</h3>
+        {/* Kotak 3: Pesanan Aktif (Simetris & Rapi) */}
+        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between h-full min-h-[160px]">
+          <div className="flex justify-between items-center">
+            <p className="text-xs font-bold text-slate-600">Pesanan Aktif</p>
+            <div className="bg-blue-50 p-2 rounded-2xl text-blue-600 text-base flex items-center justify-center">🔄</div>
           </div>
-          <div className="bg-blue-50 p-3 rounded-2xl text-lg text-blue-600">🔄</div>
+          
+          <div className="my-auto py-2">
+            <h3 className="text-3xl font-extrabold text-blue-600">{pesananAktifCount}</h3>
+            <p className="text-[11px] font-medium text-slate-500 mt-1">Sedang dalam proses pencucian</p>
+          </div>
         </div>
 
-        {/* Kotak 4: Pesanan Selesai */}
-        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex justify-between items-center">
-          <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-500">Pesanan Selesai</p>
-            <h3 className="text-2xl font-extrabold text-green-600">{pesananSelesaiCount}</h3>
+        {/* Kotak 4: Pesanan Selesai (Simetris & Rapi) */}
+        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between h-full min-h-[160px]">
+          <div className="flex justify-between items-center">
+            <p className="text-xs font-bold text-slate-600">Pesanan Selesai</p>
+            <div className="bg-emerald-50 p-2 rounded-2xl text-emerald-600 text-base flex items-center justify-center">✅</div>
           </div>
-          <div className="bg-green-50 p-3 rounded-2xl text-lg text-green-600">✅</div>
+          
+          <div className="my-auto py-2">
+            <h3 className="text-3xl font-extrabold text-emerald-600">{pesananSelesaiCount}</h3>
+            <p className="text-[11px] font-medium text-slate-500 mt-1">Siap diambil / diantar ke pelanggan</p>
+          </div>
         </div>
 
       </div>
@@ -394,8 +438,20 @@ export default function CashierPOS() {
                     </td>
                     <td className="p-3.5 align-top text-center">
                       <button 
-                        onClick={() => alert(`Mencetak struk untuk resi ${order.id} (${order.paymentMethod})`)}
-                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl font-bold text-xs transition inline-flex items-center gap-1 shadow-sm mt-1"
+                        onClick={() => {
+                          const cleanQty = order.qty ? order.qty.replace('Qty: ', '') : '1';
+                          setReceiptData({
+                            orderId: order.id,
+                            tanggal: order.date,
+                            nama: order.name,
+                            noHp: order.phone,
+                            layanan: order.service,
+                            berat: cleanQty,
+                            metode: order.paymentMethod,
+                            total: order.totalNominal
+                          });
+                        }}
+                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl font-bold text-xs transition inline-flex items-center gap-1 shadow-sm mt-1 cursor-pointer"
                       >
                         <span>🖨️</span> Struk
                       </button>
@@ -443,10 +499,20 @@ export default function CashierPOS() {
                 onChange={(e) => setWalkinService(e.target.value)}
                 className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none bg-white"
               >
-                <option>Cuci Kiloan Reguler (Rp 7.000/Kg)</option>
-                <option>Cuci Kilat / Express (Rp 12.000/Kg)</option>
-                <option>Cuci Sepatu (Rp 30.000/Pasang)</option>
-                <option>Cuci Bedcover / Selimut (Rp 25.000/Pcs)</option>
+                <option value="Cuci Kiloan Reguler (2 Hari) - Rp 8.000/Kg">Cuci Kiloan Reguler (2 Hari) - Rp 8.000/Kg</option>
+                <option value="Cuci Express (1 Hari) - Rp 10.000/Kg">Cuci Express (1 Hari) - Rp 10.000/Kg</option>
+                <option value="Cuci Express (Pagi/Sore) - Rp 15.000/Kg">Cuci Express (Pagi/Sore) - Rp 15.000/Kg</option>
+                <option value="Cuci Sprei - Rp 9.000/Kg">Cuci Sprei - Rp 9.000/Kg</option>
+                <option value="Cuci Bed Cover - Rp 10.000/Kg">Cuci Bed Cover - Rp 10.000/Kg</option>
+                <option value="Cuci Baju Gaun - Rp 30.000/Pcs">Cuci Baju Gaun - Rp 30.000/Pcs</option>
+                <option value="Cuci Jas / Baju - Rp 15.000/Pcs">Cuci Jas / Baju - Rp 15.000/Pcs</option>
+                <option value="Cuci Jas Setelan - Rp 30.000/Pcs">Cuci Jas Setelan - Rp 30.000/Pcs</option>
+                <option value="Cuci Sepatu - Rp 25.000/Pasang">Cuci Sepatu - Rp 25.000/Pasang</option>
+                <option value="Cuci Tas - Rp 15.000/Kg">Cuci Tas - Rp 15.000/Kg</option>
+                <option value="Cuci Gorden - Rp 10.000/Kg">Cuci Gorden - Rp 10.000/Kg</option>
+                <option value="Cuci Boneka Kecil - Rp 20.000/Pcs">Cuci Boneka Kecil - Rp 20.000/Pcs</option>
+                <option value="Cuci Boneka Sedang - Rp 30.000/Pcs">Cuci Boneka Sedang - Rp 30.000/Pcs</option>
+                <option value="Cuci Boneka Besar - Rp 40.000/Pcs">Cuci Boneka Besar - Rp 40.000/Pcs</option>
               </select>
             </div>
             <div>
@@ -482,6 +548,10 @@ export default function CashierPOS() {
         </form>
       )}
 
+      <ReceiptModal 
+        receiptData={receiptData}
+        onClose={() => setReceiptData(null)}
+      />
     </div>
   );
 }
